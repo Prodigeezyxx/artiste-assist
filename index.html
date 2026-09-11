@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artiste Assist — Touring infrastructure for African artists going global</title>
+<meta name="description" content="Artiste Assist runs routing, visas, freight, crew and tour money for African artists playing international runs. The office behind the stage.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#101113;
+    --ink-2:#3A3E44;
+    --muted:#676D75;
+    --faint:#9AA0A8;
+    --line:#E8EAEC;
+    --line-2:#F1F3F4;
+    --bg:#FFFFFF;
+    --tint:#F7F9F9;
+    --teal:#0EA69B;
+    --teal-deep:#0A857D;
+    --teal-wash:#EAF7F5;
+    --blue:#3D6BFF;
+    --violet:#7C5CFC;
+    --green:#1FA463;
+    --coral:#FF6B5E;
+    --amber:#D9930F;
+    --amber-wash:#FBF3E2;
+    --pink:#E2569A;
+    --slate:#4C7FA6;
+    --r-lg:20px;
+    --r-md:14px;
+    --r-sm:10px;
+    --shadow:0 1px 2px rgba(16,17,19,.04), 0 12px 32px -16px rgba(16,17,19,.14);
+    --max:1160px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:var(--teal-wash);color:var(--teal-deep)}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+  .mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block}
+  h1,h2,h3{text-wrap:balance}
+  p{text-wrap:pretty}
+
+  :focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:4px}
+
+  /* ---------- buttons ---------- */
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;
+    font-weight:600;font-size:15px;letter-spacing:-.01em;
+    padding:13px 22px;border-radius:999px;border:1px solid transparent;
+    transition:transform .18s ease, background .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease;
+    cursor:pointer;white-space:nowrap;
+  }
+  .btn svg{transition:transform .18s ease}
+  .btn:hover svg{transform:translateX(2px)}
+  .btn-primary{background:var(--ink);color:#fff}
+  .btn-primary:hover{background:#000;transform:translateY(-1px);box-shadow:0 10px 24px -12px rgba(16,17,19,.45)}
+  .btn-ghost{background:#fff;border-color:var(--line);color:var(--ink)}
+  .btn-ghost:hover{border-color:#CFD4D8;transform:translateY(-1px)}
+  .btn-teal{background:var(--teal);color:#fff}
+  .btn-teal:hover{background:var(--teal-deep);transform:translateY(-1px)}
+
+  /* ---------- nav ---------- */
+  .nav{
+    position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid transparent;transition:border-color .25s ease;
+  }
+  .nav.scrolled{border-bottom-color:var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .logo{display:inline-flex;flex-direction:column;align-items:stretch;gap:5px}
+  .logo-mark{display:flex;align-items:center;gap:8px}
+  .logo-a{width:26px;height:23px}
+  .logo-word{
+    font-weight:900;font-size:23px;letter-spacing:-.035em;line-height:1;
+    font-stretch:125%;transform:translateY(1px);
+  }
+  .logo-badge{width:27px;height:27px;margin-left:-2px}
+  .logo-sub{
+    font-size:10.5px;font-weight:600;letter-spacing:.34em;color:var(--ink-2);
+    line-height:1;align-self:flex-end;margin-right:34px;
+  }
+  .nav-links{display:flex;align-items:center;gap:34px;font-size:14.5px;font-weight:500;color:var(--ink-2)}
+  .nav-links a{position:relative;transition:color .15s ease}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-links a::after{
+    content:"";position:absolute;left:0;right:100%;bottom:-6px;height:1.5px;
+    background:var(--teal);transition:right .22s ease;
+  }
+  .nav-links a:hover::after{right:0}
+  .nav-cta{display:flex;align-items:center;gap:18px}
+  .nav .btn{padding:11px 19px;font-size:14px}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;overflow:hidden}
+  .hero-dots{
+    position:absolute;inset:0;pointer-events:none;
+    background-image:radial-gradient(circle at 1px 1px, #D8DEE2 1px, transparent 1.25px);
+    background-size:22px 22px;
+    -webkit-mask-image:linear-gradient(180deg, transparent 0, #000 12%, #000 62%, transparent 100%);
+    mask-image:linear-gradient(180deg, transparent 0, #000 12%, #000 62%, transparent 100%);
+    opacity:.5;
+  }
+  .hero-in{
+    position:relative;display:grid;grid-template-columns:1.08fr .92fr;gap:64px;
+    align-items:center;padding:84px 0 30px;
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:9px;
+    font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:500;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--teal-deep);
+    background:var(--teal-wash);border:1px solid #D3EDE9;
+    padding:7px 13px;border-radius:999px;margin-bottom:26px;
+  }
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 2.4s ease infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(14,166,155,.35)}50%{box-shadow:0 0 0 5px rgba(14,166,155,0)}}
+  h1{
+    font-size:clamp(38px,4.6vw,58px);line-height:1.06;letter-spacing:-.032em;
+    font-weight:800;margin-bottom:22px;
+  }
+  h1 .hl{position:relative;white-space:nowrap}
+  h1 .hl svg{position:absolute;left:0;right:0;bottom:-8px;width:100%;height:12px}
+  .hero-sub{font-size:18px;line-height:1.62;color:var(--muted);max-width:52ch;margin-bottom:34px}
+  .hero-sub strong{color:var(--ink-2);font-weight:600}
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:30px}
+  .hero-note{
+    display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--muted);
+  }
+  .hero-note .flag{font-size:15px}
+
+  /* tour file card */
+  .file-card{
+    background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);
+    box-shadow:var(--shadow);overflow:hidden;position:relative;
+  }
+  .file-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 20px;border-bottom:1px solid var(--line-2);
+  }
+  .file-tag{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase}
+  .chip{
+    display:inline-flex;align-items:center;gap:7px;
+    font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    padding:5px 11px;border-radius:999px;font-weight:500;
+  }
+  .chip .cdot{width:6px;height:6px;border-radius:50%}
+  .chip-amber{background:var(--amber-wash);color:#8A6207}
+  .chip-amber .cdot{background:var(--amber)}
+  .chip-teal{background:var(--teal-wash);color:var(--teal-deep)}
+  .chip-teal .cdot{background:var(--teal)}
+  .file-body{padding:22px 20px 8px}
+  .file-title{font-size:21px;font-weight:700;letter-spacing:-.02em;line-height:1.25}
+  .file-meta{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--muted);margin-top:7px;letter-spacing:.02em}
+  .file-rows{margin-top:20px;border-top:1px solid var(--line-2)}
+  .file-row{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:13px 0;border-bottom:1px solid var(--line-2);font-size:14.5px;
+  }
+  .file-row .k{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+  .file-row .v{font-weight:600;font-size:14px;color:var(--ink-2);display:flex;align-items:center;gap:8px;text-align:right}
+  .v .vdot{width:7px;height:7px;border-radius:50%;flex:none}
+  .file-foot{
+    display:flex;align-items:center;gap:9px;padding:14px 20px;
+    font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--faint);letter-spacing:.06em;
+  }
+
+  /* ---------- route strip ---------- */
+  .route-band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fff, #FBFCFC);margin-top:46px}
+  .route-in{padding:30px 0 34px;overflow-x:auto;scrollbar-width:none}
+  .route-in::-webkit-scrollbar{display:none}
+  .route-label{margin-bottom:22px;text-align:center}
+  .route{
+    display:flex;align-items:flex-start;justify-content:space-between;
+    min-width:860px;position:relative;padding:0 8px;
+  }
+  .route-line{
+    position:absolute;top:7px;left:26px;right:26px;height:1.5px;background:var(--line);
+  }
+  .route-line .fill{
+    position:absolute;left:0;top:0;bottom:0;width:0;background:var(--teal);
+    transition:width 1.6s cubic-bezier(.22,.61,.36,1);
+  }
+  .node{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;min-width:86px}
+  .node .n{
+    width:15px;height:15px;border-radius:50%;background:#fff;
+    border:3px solid var(--nc,#000);position:relative;z-index:1;
+    transition:transform .3s ease;
+  }
+  .node:hover .n{transform:scale(1.25)}
+  .node .n::after{
+    content:"";position:absolute;inset:3px;border-radius:50%;background:var(--nc,#000);
+    opacity:0;transition:opacity .3s ease;
+  }
+  .node.on .n::after{opacity:1}
+  .node .city{font-size:13.5px;font-weight:700;letter-spacing:.01em}
+  .node .cc{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.16em;color:var(--faint)}
+
+  /* ---------- section shells ---------- */
+  section{padding:104px 0}
+  .sec-head{max-width:640px;margin-bottom:56px}
+  .sec-tag{
+    font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--faint);display:block;margin-bottom:16px;
+  }
+  h2{font-size:clamp(28px,3.1vw,40px);line-height:1.12;letter-spacing:-.028em;font-weight:800;margin-bottom:16px}
+  .sec-sub{font-size:17px;color:var(--muted);line-height:1.65}
+
+  /* ---------- services ---------- */
+  .services{background:var(--tint);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 56px}
+  .svc{
+    display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start;
+    padding:26px 4px;border-bottom:1px solid #E4E7E9;
+    transition:background .2s ease;
+  }
+  .svc:hover{background:#FDFEFE}
+  .svc-num{
+    font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--faint);
+    padding-top:4px;letter-spacing:.06em;
+  }
+  .svc-body{display:flex;gap:15px;align-items:flex-start}
+  .svc-mark{
+    width:11px;height:11px;border-radius:3.5px;background:var(--sc,var(--teal));
+    flex:none;margin-top:7px;
+  }
+  .svc h3{font-size:16.5px;font-weight:700;letter-spacing:-.012em;margin-bottom:6px}
+  .svc p{font-size:14.5px;color:var(--muted);line-height:1.6;max-width:42ch}
+
+  /* ---------- how it works ---------- */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;margin-top:8px}
+  .steps::before{
+    content:"";position:absolute;top:9px;left:6%;right:6%;height:1.5px;background:var(--line);
+  }
+  .step{position:relative;padding:44px 26px 0 0;display:flex;flex-direction:column;gap:12px}
+  .step .snode{
+    position:absolute;top:2px;left:0;width:16px;height:16px;border-radius:50%;
+    background:#fff;border:3px solid var(--sc);z-index:1;
+  }
+  .step .snum{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.16em;color:var(--faint);text-transform:uppercase}
+  .step h3{font-size:19px;font-weight:700;letter-spacing:-.015em}
+  .step p{font-size:14.5px;color:var(--muted);line-height:1.62;max-width:30ch}
+
+  /* ---------- runs ---------- */
+  .runs{background:var(--tint);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .run-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .run{
+    background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);
+    padding:30px 30px 24px;display:flex;flex-direction:column;gap:0;
+    transition:transform .22s ease, box-shadow .22s ease;
+  }
+  .run:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+  .run-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+  .run-type{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+  .run h3{font-size:22px;font-weight:800;letter-spacing:-.02em;line-height:1.2;margin-bottom:8px}
+  .run .place{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--muted);letter-spacing:.02em;margin-bottom:22px}
+  .run-cities{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+  .rc{
+    display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:500;
+    border:1px solid var(--line);border-radius:999px;padding:6px 13px;color:var(--ink-2);
+    background:#FCFDFD;
+  }
+  .rc i{width:7px;height:7px;border-radius:50%;display:block}
+  .run-foot{margin-top:auto;padding-top:18px;border-top:1px solid var(--line-2);font-size:13px;color:var(--muted);display:flex;align-items:center;gap:9px}
+
+  /* ---------- audience ---------- */
+  .aud-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .aud{border-top:2px solid var(--ac,var(--teal));padding-top:22px}
+  .aud .alabel{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:12px}
+  .aud h3{font-size:19px;font-weight:700;letter-spacing:-.015em;margin-bottom:10px}
+  .aud p{font-size:14.5px;color:var(--muted);line-height:1.62}
+
+  /* ---------- faq ---------- */
+  .faq{max-width:760px}
+  .faq details{border-bottom:1px solid var(--line)}
+  .faq details:first-of-type{border-top:1px solid var(--line)}
+  .faq summary{
+    list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:24px;
+    padding:24px 2px;font-size:17px;font-weight:600;letter-spacing:-.012em;
+  }
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary .fx{
+    flex:none;width:26px;height:26px;border-radius:50%;border:1px solid var(--line);
+    display:grid;place-items:center;transition:transform .25s ease, background .25s ease, border-color .25s ease;
+  }
+  .faq summary .fx svg{transition:transform .25s ease}
+  .faq details[open] summary .fx{background:var(--ink);border-color:var(--ink)}
+  .faq details[open] summary .fx svg{transform:rotate(45deg)}
+  .faq details[open] summary .fx svg path{stroke:#fff}
+  .faq .a{padding:0 2px 26px;color:var(--muted);font-size:15.5px;line-height:1.7;max-width:64ch}
+
+  /* ---------- cta ---------- */
+  .cta{
+    position:relative;overflow:hidden;
+    background:var(--teal-wash);border-top:1px solid #D3EDE9;
+    padding:96px 0;
+  }
+  .cta-dots{
+    position:absolute;inset:0;pointer-events:none;opacity:.55;
+    background-image:radial-gradient(circle at 1px 1px, #BFE3DF 1px, transparent 1.25px);
+    background-size:22px 22px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 50%, #000 30%, transparent 78%);
+    mask-image:radial-gradient(ellipse at 50% 50%, #000 30%, transparent 78%);
+  }
+  .cta-in{position:relative;max-width:720px}
+  .cta h2{margin-bottom:18px}
+  .cta p{font-size:17.5px;color:#3D5B58;line-height:1.65;margin-bottom:34px;max-width:56ch}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .cta-mail{
+    font-family:"IBM Plex Mono",monospace;font-size:13.5px;color:var(--teal-deep);
+    border-bottom:1.5px solid #A9DAD4;padding-bottom:2px;transition:border-color .2s ease;
+  }
+  .cta-mail:hover{border-color:var(--teal-deep)}
+
+  /* ---------- footer ---------- */
+  footer{padding:64px 0 44px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;padding-bottom:52px;border-bottom:1px solid var(--line)}
+  .foot-tag{font-size:14px;color:var(--muted);max-width:34ch;line-height:1.65;margin-top:18px}
+  .foot h4{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:18px;font-weight:500}
+  .foot ul{list-style:none;display:flex;flex-direction:column;gap:12px;font-size:14.5px;color:var(--ink-2)}
+  .foot a{transition:color .15s ease}
+  .foot a:hover{color:var(--teal-deep)}
+  .foot-base{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:28px;font-size:13px;color:var(--faint);flex-wrap:wrap}
+  .foot-base .mono{font-size:12px}
+
+  /* ---------- reveal ---------- */
+  .rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s cubic-bezier(.22,.61,.36,1)}
+  .rv.in{opacity:1;transform:none}
+  .d1{transition-delay:.06s}.d2{transition-delay:.12s}.d3{transition-delay:.18s}.d4{transition-delay:.24s}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    .rv{opacity:1;transform:none;transition:none}
+    .eyebrow .dot{animation:none}
+    .btn,.btn svg,.run,.node .n{transition:none}
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:1020px){
+    .hero-in{grid-template-columns:1fr;gap:52px;padding-top:64px}
+    .svc-grid{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr 1fr;gap:34px 0}
+    .steps::before{display:none}
+    .run-grid{grid-template-columns:1fr}
+    .aud-grid{grid-template-columns:1fr;gap:36px}
+    .foot-grid{grid-template-columns:1fr 1fr;gap:40px}
+  }
+  @media (max-width:720px){
+    .wrap{padding:0 20px}
+    .nav-links{display:none}
+    section{padding:76px 0}
+    .hero-in{padding:48px 0 20px}
+    .hero-sub{font-size:16.5px}
+    .hero-ctas .btn{width:100%;justify-content:center}
+    .steps{grid-template-columns:1fr}
+    .step{padding-right:0}
+    .foot-grid{grid-template-columns:1fr}
+    .cta{padding:72px 0}
+    .file-body{padding:20px 18px 6px}
+    .file-head{padding:14px 18px}
+    .file-foot{padding:13px 18px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="logo" href="#top" aria-label="Artiste Assist home">
+      <span class="logo-mark" aria-hidden="true">
+        <svg class="logo-a" viewBox="0 0 32 28" fill="none">
+          <path d="M16 0 L32 28 H0 Z" fill="#101113"/>
+          <path d="M11.2 28 L16 18.2 L20.8 28 Z" fill="#FFFFFF"/>
+        </svg>
+        <span class="logo-word">RTISTE</span>
+        <svg class="logo-badge" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="16" fill="#101113"/>
+          <path d="M11 22 L20.5 12.5 M13.8 11.6 H21.4 V19.2" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="logo-sub">ASSIST</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#services">What we run</a>
+      <a href="#how">How it works</a>
+      <a href="#runs">Recent runs</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-primary" href="#contact">Start a tour brief
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="top" style="padding:0">
+  <div class="hero-dots" aria-hidden="true"></div>
+  <div class="wrap hero-in">
+    <div>
+      <span class="eyebrow rv"><span class="dot"></span>UK &amp; Canada · Tours running now</span>
+      <h1 class="rv d1">Touring infrastructure for African artists <span class="hl">going global<svg viewBox="0 0 300 12" preserveAspectRatio="none" aria-hidden="true"><path d="M3 9 C 80 2.4, 220 2.4, 297 8" stroke="#0EA69B" stroke-width="4" stroke-linecap="round" fill="none" opacity=".85"/></svg></span></h1>
+      <p class="hero-sub rv d2">We run the part of the tour nobody sees. Routing, visas, freight, crew, money. <strong>One office behind the stage</strong> from Lagos to London to Toronto.</p>
+      <div class="hero-ctas rv d3">
+        <a class="btn btn-primary" href="#contact">Start a tour brief
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#how">See how a tour runs</a>
+      </div>
+      <div class="hero-note rv d4"><span class="flag">🇬🇧</span> Currently routing: <strong>Mavo — UK Business Crusade</strong>, London &amp; Manchester.</div>
+    </div>
+
+    <div class="rv d2">
+      <div class="file-card">
+        <div class="file-head">
+          <span class="file-tag">Tour file / example</span>
+          <span class="chip chip-amber"><span class="cdot"></span>In routing</span>
+        </div>
+        <div class="file-body">
+          <div class="file-title">Mavo — UK Business Crusade</div>
+          <div class="file-meta">London · Manchester / 2026</div>
+          <div class="file-rows">
+            <div class="file-row"><span class="k">Routing</span><span class="v"><span class="vdot" style="background:var(--amber)"></span>In progress</span></div>
+            <div class="file-row"><span class="k">Permits</span><span class="v"><span class="vdot" style="background:var(--green)"></span>Filed</span></div>
+            <div class="file-row"><span class="k">Freight</span><span class="v"><span class="vdot" style="background:var(--green)"></span>Customs cleared</span></div>
+            <div class="file-row"><span class="k">Ground</span><span class="v"><span class="vdot" style="background:var(--green)"></span>Booked</span></div>
+            <div class="file-row"><span class="k">Tickets</span><span class="v"><span class="vdot" style="background:var(--teal)"></span>Sign-up open</span></div>
+          </div>
+        </div>
+        <div class="file-foot">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.5" stroke="#9AA0A8" stroke-width="1.4"/><path d="M8 4.8V8l2.2 1.4" stroke="#9AA0A8" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Operator — Artiste Assist · London
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- route strip -->
+  <div class="route-band">
+    <div class="wrap route-in">
+      <span class="route-label mono rv" style="font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)">Moving artists between 7 cities this season</span>
+      <div class="route">
+        <span class="route-line"><span class="fill" id="routeFill"></span></span>
+        <div class="node" style="--nc:#0EA69B"><span class="n"></span><span class="city">Lagos</span><span class="cc">NG</span></div>
+        <div class="node" style="--nc:#3D6BFF"><span class="n"></span><span class="city">London</span><span class="cc">UK</span></div>
+        <div class="node" style="--nc:#7C5CFC"><span class="n"></span><span class="city">Toronto</span><span class="cc">CA</span></div>
+        <div class="node" style="--nc:#1FA463"><span class="n"></span><span class="city">Halifax</span><span class="cc">CA</span></div>
+        <div class="node" style="--nc:#D9930F"><span class="n"></span><span class="city">Winnipeg</span><span class="cc">CA</span></div>
+        <div class="node" style="--nc:#FF6B5E"><span class="n"></span><span class="city">Calgary</span><span class="cc">CA</span></div>
+        <div class="node" style="--nc:#E2569A"><span class="n"></span><span class="city">Vancouver</span><span class="cc">CA</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SERVICES ================= -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag rv">What we take off your desk</span>
+      <h2 class="rv d1">Eight jobs decide whether a tour happens. We run all of them.</h2>
+      <p class="sec-sub rv d2">Every run is one system with one accountable team, not nine vendors in a group chat.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc rv" style="--sc:#0EA69B"><span class="svc-num">01</span><div class="svc-body"><span class="svc-mark"></span><div><h3>Global tour routing &amp; logistics</h3><p>City by city we build the run: which rooms, which nights, which drives are too long.</p></div></div></div>
+      <div class="svc rv" style="--sc:#3D6BFF"><span class="svc-num">02</span><div class="svc-body"><span class="svc-mark"></span><div><h3>Visa &amp; work permit processing</h3><p>Paperwork filed early and in the right order, for every country on the run.</p></div></div></div>
+      <div class="svc rv" style="--sc:#7C5CFC"><span class="svc-num">03</span><div class="svc-body"><span class="svc-mark"></span><div><h3>Travel, accommodation &amp; ground transport</h3><p>Flights that land before soundcheck. Rooms near the venue. Vans that actually turn up.</p></div></div></div>
+      <div class="svc rv" style="--sc:#1FA463"><span class="svc-num">04</span><div class="svc-body"><span class="svc-mark"></span><div><h3>Tour accounting &amp; royalty tracking</h3><p>Nightly settlements, splits and statements you can hand to your label without flinching.</p></div></div></div>
+      <div class="svc rv" style="--sc:#FF6B5E"><span class="svc-num">05</span><div class="svc-body"><span class="svc-mark"></span><div><h3>Crew &amp; vendor management</h3><p>Backline, sound, lights, security. Booked, briefed and paid on time.</p></div></div></div>
+      <div class="svc rv" style="--sc:#D9930F"><span class="svc-num">06</span><div class="svc-body"><span class="svc-mark"></span><div><h3>Insurance &amp; risk management</h3><p>Cover, cancellations and the boring clauses that quietly save tours.</p></div></div></div>
+      <div class="svc rv" style="--sc:#E2569A"><span class="svc-num">07</span><div class="svc-body"><span class="svc-mark"></span><div><h3>Immigration legal services</h3><p>Lawyers who know touring artists, not tourists.</p></div></div></div>
+      <div class="svc rv" style="--sc:#4C7FA6"><span class="svc-num">08</span><div class="svc-body"><span class="svc-mark"></span><div><h3>Equipment freight &amp; customs</h3><p>Two crates out, two crates back, cleared at both ends.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag rv">How it works</span>
+      <h2 class="rv d1">From "let's tour" to closed accounts.</h2>
+      <p class="sec-sub rv d2">You bring the music and the markets. We bring the machine that gets it there and back.</p>
+    </div>
+    <div class="steps">
+      <div class="step rv" style="--sc:#0EA69B">
+        <span class="snode"></span>
+        <span class="snum">Step 01 · Route</span>
+        <h3>Route</h3>
+        <p>Send us the markets you want. We come back with dates, rooms, costs and a plan that holds up.</p>
+      </div>
+      <div class="step rv d1" style="--sc:#3D6BFF">
+        <span class="snode"></span>
+        <span class="snum">Step 02 · Paperwork</span>
+        <h3>Paperwork</h3>
+        <p>Permits, visas, carnets, insurance. Filed before anyone pays a deposit.</p>
+      </div>
+      <div class="step rv d2" style="--sc:#FF6B5E">
+        <span class="snode"></span>
+        <span class="snum">Step 03 · Move</span>
+        <h3>Move</h3>
+        <p>Flights, freight and ground transport on one sheet. One number for everything on the road.</p>
+      </div>
+      <div class="step rv d3" style="--sc:#1FA463">
+        <span class="snode"></span>
+        <span class="snum">Step 04 · Settle</span>
+        <h3>Settle</h3>
+        <p>Nightly numbers, vendor payments, royalty statements. Closed clean when the last van parks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RUNS ================= -->
+<section class="runs" id="runs">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag rv">Recent runs</span>
+      <h2 class="rv d1">Proof, not pitch decks.</h2>
+      <p class="sec-sub rv d2">The tours we have moved, and the one currently on the desk.</p>
+    </div>
+    <div class="run-grid">
+      <article class="run rv">
+        <div class="run-top">
+          <span class="run-type">Tour · Canada</span>
+          <span class="chip chip-teal"><span class="cdot"></span>Delivered</span>
+        </div>
+        <h3>Mavo — Business Canada Tour</h3>
+        <div class="place">Five cities / 2026</div>
+        <div class="run-cities">
+          <span class="rc"><i style="background:#7C5CFC"></i>Toronto</span>
+          <span class="rc"><i style="background:#1FA463"></i>Halifax</span>
+          <span class="rc"><i style="background:#D9930F"></i>Winnipeg</span>
+          <span class="rc"><i style="background:#FF6B5E"></i>Calgary</span>
+          <span class="rc"><i style="background:#E2569A"></i>Vancouver</span>
+        </div>
+        <div class="run-foot">Routing, permits, freight and ground handled end to end.</div>
+      </article>
+      <article class="run rv d1">
+        <div class="run-top">
+          <span class="run-type">Tour · United Kingdom</span>
+          <span class="chip chip-amber"><span class="cdot"></span>In routing</span>
+        </div>
+        <h3>Mavo — UK Business Crusade</h3>
+        <div class="place">London &amp; Manchester / 2026</div>
+        <div class="run-cities">
+          <span class="rc"><i style="background:#3D6BFF"></i>London</span>
+          <span class="rc"><i style="background:#0EA69B"></i>Manchester</span>
+          <span class="rc" style="border-style:dashed;color:var(--faint)"><i style="background:#C9CFD4"></i>Dates soon</span>
+        </div>
+        <div class="run-foot">Sign-up open at mavolive.com. Tickets when routing closes.</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHO IT'S FOR ================= -->
+<section id="who">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag rv">Who we work with</span>
+      <h2 class="rv d1">Built for the people who carry the tour.</h2>
+    </div>
+    <div class="aud-grid">
+      <div class="aud rv" style="--ac:#0EA69B">
+        <span class="alabel">Artists &amp; teams</span>
+        <h3>Play the next market without building a touring department.</h3>
+        <p>You keep the stage and the setlist. We keep the flights, the paperwork and the 3am group chat under control.</p>
+      </div>
+      <div class="aud rv d1" style="--ac:#3D6BFF">
+        <span class="alabel">Managers &amp; labels</span>
+        <h3>One accountable partner, not nine vendors.</h3>
+        <p>Every cost, permit and payment sits with one office that reports to you. Clean books at the end of every run.</p>
+      </div>
+      <div class="aud rv d2" style="--ac:#FF6B5E">
+        <span class="alabel">Promoters &amp; venues</span>
+        <h3>An artist who lands ready, permitted and on time.</h3>
+        <p>We do the diaspora logistics so your show walks in with paperwork done and gear already cleared.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-tag rv">Straight answers</span>
+      <h2 class="rv d1">The questions every first call starts with.</h2>
+    </div>
+    <div class="faq">
+      <details class="rv" open>
+        <summary>Do we still need a promoter?
+          <span class="fx"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 1v10M1 6h10" stroke="#101113" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+        </summary>
+        <p class="a">Yes. Promoters like Cokobar sell the rooms and own the local market. We run the machine behind the show: routing, permits, freight, crew and the money between everyone. Nobody replaces anybody.</p>
+      </details>
+      <details class="rv">
+        <summary>Which markets do you cover?
+          <span class="fx"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 1v10M1 6h10" stroke="#101113" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+        </summary>
+        <p class="a">The UK and Canada today, with local partners on the ground in each city. If we cannot run your market well, we will tell you on the first call instead of learning on your tour.</p>
+      </details>
+      <details class="rv">
+        <summary>What does it cost?
+          <span class="fx"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 1v10M1 6h10" stroke="#101113" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+        </summary>
+        <p class="a">A retainer per run, quoted after we scope the routing. We do not take a cut of your ticket sales. You see every cost line before anything is booked.</p>
+      </details>
+      <details class="rv">
+        <summary>How early should we come to you?
+          <span class="fx"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 1v10M1 6h10" stroke="#101113" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+        </summary>
+        <p class="a">Ideally a season before the run. Visas and freight reward patience. If the timeline is tight we will say what is still possible and what has to wait.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="cta" id="contact">
+  <div class="cta-dots" aria-hidden="true"></div>
+  <div class="wrap cta-in">
+    <h2 class="rv">Planning a tour?<br>Send us the markets.</h2>
+    <p class="rv d1">Tell us the cities and the rough dates. You get back a route, a timeline and a number, usually within a week.</p>
+    <div class="cta-row rv d2">
+      <a class="btn btn-teal" href="mailto:hello@artisteassist.com?subject=Tour%20brief">Start a tour brief
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a class="cta-mail" href="https://instagram.com/artisteassist" target="_blank" rel="noopener">@artisteassist</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="logo" href="#top" aria-label="Artiste Assist home">
+          <span class="logo-mark" aria-hidden="true">
+            <svg class="logo-a" viewBox="0 0 32 28" fill="none">
+              <path d="M16 0 L32 28 H0 Z" fill="#101113"/>
+              <path d="M11.2 28 L16 18.2 L20.8 28 Z" fill="#FFFFFF"/>
+            </svg>
+            <span class="logo-word">RTISTE</span>
+            <svg class="logo-badge" viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="16" r="16" fill="#101113"/>
+              <path d="M11 22 L20.5 12.5 M13.8 11.6 H21.4 V19.2" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="logo-sub">ASSIST</span>
+        </a>
+        <p class="foot-tag">Touring infrastructure for African artists scaling globally. The operational backbone behind the stage.</p>
+      </div>
+      <div class="foot">
+        <h4>What we run</h4>
+        <ul>
+          <li><a href="#services">Routing &amp; logistics</a></li>
+          <li><a href="#services">Visas &amp; work permits</a></li>
+          <li><a href="#services">Freight &amp; customs</a></li>
+          <li><a href="#services">Tour accounting</a></li>
+        </ul>
+      </div>
+      <div class="foot">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#runs">Recent runs</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="https://instagram.com/artisteassist" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span>© 2026 Artiste Assist. Built in London.</span>
+      <span class="mono">LAGOS · LONDON · TORONTO · VANCOUVER</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // sticky nav border
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, {passive:true});
+
+  // reveal on scroll
+  const rv = document.querySelectorAll('.rv');
+  if ('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          const el = e.target;
+          el.classList.add('in');
+          if (el.closest('.route')) el.closest('.route').querySelectorAll('.node').forEach(n=>n.classList.add('on'));
+          io.unobserve(el);
+        }
+      });
+    },{threshold:.12, rootMargin:'0px 0px -6% 0px'});
+    rv.forEach(el=>io.observe(el));
+  } else {
+    rv.forEach(el=>el.classList.add('in'));
+  }
+
+  // route line fill
+  const routeBand = document.querySelector('.route-band');
+  const fill = document.getElementById('routeFill');
+  if (routeBand && fill && 'IntersectionObserver' in window){
+    const rio = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ fill.style.width = '100%'; rio.disconnect(); } });
+    },{threshold:.4});
+    rio.observe(routeBand);
+  } else if (fill) { fill.style.width='100%'; }
+</script>
+</body>
+</html>

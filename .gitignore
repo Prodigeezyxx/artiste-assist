@@ -1,0 +1,4 @@
+node_modules/
+.firebase/
+preview-*.png
+.DS_Store
