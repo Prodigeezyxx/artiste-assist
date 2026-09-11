@@ -48,7 +48,6 @@
     font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.22em;
     text-transform:uppercase;color:var(--faint);
   }
-  .label-teal{color:var(--teal-deep)}
   :focus-visible{outline:2px solid var(--teal);outline-offset:3px}
   h1,h2,h3{text-wrap:balance}
   p{text-wrap:pretty}
@@ -115,7 +114,7 @@
     padding:12px 2px 0;font-family:var(--mono);font-size:11px;letter-spacing:.1em;
     text-transform:uppercase;color:var(--faint);
   }
-  .hero-media .bar{position:absolute;top:0;left:0;width:3px;height:100%;background:var(--teal)}
+  .hero-media .cap-spacer{display:none}
 
   /* ---------- photo band ---------- */
   .band-imgs{display:grid;grid-template-columns:1fr 1.5fr 1fr;gap:12px;padding:0 12px}
@@ -157,12 +156,11 @@
   .tour-body{padding:30px 30px 28px;display:flex;flex-direction:column;gap:14px}
   .tour-top{display:flex;align-items:center;justify-content:space-between;gap:14px}
   .chip{
-    display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);
+    display:inline-flex;align-items:center;font-family:var(--mono);
     font-size:10.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
     padding:6px 12px;border:1px solid #34383C;color:#9BA1A8;
   }
-  .chip .dot{width:6px;height:6px;border-radius:50%;background:var(--teal)}
-  .chip.gold .dot{background:#D9A53F}
+  .chip.gold{color:#C9A253;border-color:#3E382C}
   .tour h3{font-size:22px;line-height:1.2;letter-spacing:-.015em;color:#fff}
   .tour .cities{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:#8A9096;line-height:1.9}
   .tour p{font-size:14.5px;line-height:1.65;color:#B9BEC4;flex:1}
@@ -219,7 +217,7 @@
   .foot-base .route{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--faint)}
 
   /* ---------- reveal ---------- */
-  .rv{opacity:0;transform:translateY(16px);transition:opacity .7s ease, transform .7s cubic-bezier(.22,.61,.36,1)}
+  .rv{opacity:0;transform:translateY(10px);transition:opacity .5s ease, transform .5s cubic-bezier(.22,.61,.36,1)}
   .rv.in{opacity:1;transform:none}
   .d1{transition-delay:.07s}.d2{transition-delay:.14s}.d3{transition-delay:.21s}
 
@@ -298,10 +296,10 @@
     <div>
       <div class="hero-eyebrow rv">
         <span class="tick"></span>
-        <span class="label">Touring infrastructure — UK &amp; Canada</span>
+        <span class="label">Touring infrastructure · UK &amp; Canada</span>
       </div>
       <h1 class="rv d1">Touring infrastructure for African artists <span class="thin">going global.</span></h1>
-      <p class="hero-sub rv d2">Artiste Assist runs the operations behind an international tour — routing, visas and work permits, freight, crew and tour accounting — so the artist can focus on the show.</p>
+      <p class="hero-sub rv d2">Routing, work permits, freight, crew and tour accounting for international runs. One office answers for all of it, from the first route sheet to the final settlement.</p>
       <div class="hero-ctas rv d3">
         <a class="btn btn-dark" href="#contact">Start a tour brief
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -309,13 +307,12 @@
         <a class="btn btn-line" href="#tours">See recent tours</a>
       </div>
       <div class="hero-note rv d3">
-        <div class="row"><span class="k">On the road now</span><span>Mavo — UK Business Crusade · London &amp; Manchester</span></div>
-        <div class="row"><span class="k">Last delivered</span><span>Mavo — Business Canada Tour · 5 cities</span></div>
+        <div class="row"><span class="k">On the road</span><span>Mavo, UK Business Crusade · London &amp; Manchester</span></div>
+        <div class="row"><span class="k">Last delivered</span><span>Mavo, Business Canada Tour · five cities</span></div>
       </div>
     </div>
     <div class="hero-media rv d2">
       <figure>
-        <span class="bar" aria-hidden="true"></span>
         <img src="assets/img/hero-01.jpg" width="900" height="1098" alt="Mavo performing on stage, seated at the edge with the crowd below">
         <figcaption><span>Mavo — live</span><span>On tour, 2026</span></figcaption>
       </figure>
@@ -335,16 +332,16 @@
   <div class="wrap">
     <div class="sec-head">
       <div>
-        <span class="label label-teal rv">What we handle</span>
+        <span class="label rv">What we handle</span>
         <h2 class="rv d1" style="margin-top:16px">Eight workstreams.<br>One team.</h2>
       </div>
       <div class="right rv d2">
-        <p class="sec-sub">Every international run needs the same machinery: a route that works, paperwork that holds, gear that clears, crew that gets paid. We run it as one system, engaged per tour or retained across a season.</p>
+        <p class="sec-sub">Engaged per tour, or retained across a season. We take routing, permits, freight, crew and accounting off the artist's team and run them to a schedule.</p>
       </div>
     </div>
     <div class="svc-list">
       <div class="svc rv"><span class="num">01</span><h3>Global tour routing &amp; logistics</h3><p>Route planning, venue scheduling and travel logistics across every market on the run.</p></div>
-      <div class="svc rv"><span class="num">02</span><h3>Visa &amp; work permit processing</h3><p>Filings prepared and submitted early, for every country on the routing.</p></div>
+      <div class="svc rv"><span class="num">02</span><h3>Visa &amp; work permit processing</h3><p>Filings prepared and submitted early, for every country on the route.</p></div>
       <div class="svc rv"><span class="num">03</span><h3>Travel, accommodation &amp; ground transport</h3><p>Flights, hotels and ground transport coordinated for the full company.</p></div>
       <div class="svc rv"><span class="num">04</span><h3>Tour accounting &amp; royalty tracking</h3><p>Nightly settlements, vendor payments and royalty statements, closed after every show.</p></div>
       <div class="svc rv"><span class="num">05</span><h3>Crew &amp; vendor management</h3><p>Backline, production and local crew booked, briefed and paid on schedule.</p></div>
@@ -361,10 +358,10 @@
     <div class="sec-head">
       <div>
         <span class="label rv">Recent tours</span>
-        <h2 class="rv d1" style="margin-top:16px">Tours we have run.</h2>
+        <h2 class="rv d1" style="margin-top:16px">Recent runs.</h2>
       </div>
       <div class="right rv d2">
-        <p class="sec-sub">Delivered runs, and the one currently in routing. Every tour on this page was produced with the artist's own team and local promoters.</p>
+        <p class="sec-sub">Produced with the artist's management and local promoters in each market.</p>
       </div>
     </div>
     <div class="tour-cards">
@@ -373,11 +370,11 @@
         <div class="tour-body">
           <div class="tour-top">
             <span class="label" style="color:#7D838A">Canada — 2026</span>
-            <span class="chip"><span class="dot"></span>Delivered</span>
+            <span class="chip">Delivered</span>
           </div>
           <h3>Mavo — Business Canada Tour</h3>
           <div class="cities">TORONTO · HALIFAX · WINNIPEG<br>CALGARY · VANCOUVER</div>
-          <p>Five cities across Canada. Routing, work permits, freight and ground transport handled end to end for the full company.</p>
+          <p>Five cities across Canada. Permits, freight and ground transport handled end to end.</p>
           <span class="tour-link">Run with Kilo Gbedere Records
             <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </span>
@@ -388,11 +385,11 @@
         <div class="tour-body">
           <div class="tour-top">
             <span class="label" style="color:#7D838A">United Kingdom — 2026</span>
-            <span class="chip gold"><span class="dot"></span>In routing</span>
+            <span class="chip gold">In routing</span>
           </div>
           <h3>Mavo — UK Business Crusade</h3>
           <div class="cities">LONDON · MANCHESTER<br>DATES TO BE ANNOUNCED</div>
-          <p>Currently in routing with promoters in the UK. Registration is open for first access when tickets go on sale.</p>
+          <p>In routing with UK promoters. Registration is open for first access to tickets.</p>
           <a class="tour-link" href="https://www.mavolive.com" target="_blank" rel="noopener">Register at mavolive.com
             <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
@@ -407,17 +404,17 @@
   <div class="wrap">
     <div class="sec-head">
       <div>
-        <span class="label label-teal rv">How it works</span>
+        <span class="label rv">How it works</span>
         <h2 class="rv d1" style="margin-top:16px">How a tour comes together.</h2>
       </div>
       <div class="right rv d2">
-        <p class="sec-sub">From the first route sheet to the last settlement, one team carries the run.</p>
+        <p class="sec-sub">Four stages, from the first route sheet to final settlement.</p>
       </div>
     </div>
 
     <div class="itin rv">
       <div class="itin-head">
-        <span class="label">Typical routing — West Africa to North America</span>
+        <span class="label">Typical routing · West Africa to North America</span>
         <span class="mono" style="font-size:11px;letter-spacing:.14em;color:var(--faint)">7 CITIES · 2026</span>
       </div>
       <div class="itin-track">
@@ -470,9 +467,9 @@
 <section class="contact" id="contact">
   <div class="wrap contact-grid">
     <div>
-      <span class="label label-teal rv">Contact</span>
+      <span class="label rv">Contact</span>
       <h2 class="rv d1" style="margin-top:16px">Planning a tour?<br>Send us the markets.</h2>
-      <p class="rv d2">Tell us the cities and the rough dates. We will come back with a route, a timeline and a budget.</p>
+      <p class="rv d2">Send the cities and rough dates. We reply with a route, a timeline and a budget.</p>
       <div class="hero-ctas rv d3">
         <a class="btn btn-teal" href="mailto:hello@artisteassist.com?subject=Tour%20brief">Start a tour brief
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -499,7 +496,7 @@
         <a class="logo" href="#top" aria-label="Artiste Assist — home">
           <img src="assets/img/logo.png" width="560" height="157" alt="Artiste Assist">
         </a>
-        <p class="foot-tag">Touring infrastructure for African artists scaling globally. The operational backbone behind the stage.</p>
+        <p class="foot-tag">Touring infrastructure for African artists scaling globally.</p>
       </div>
       <div class="foot">
         <h4>What we handle</h4>
