@@ -8,6 +8,7 @@
       "preview-*.png",
       "_mobile-test.html",
       "assets/raw/**",
+      "docs/**",
       "*.txt"
     ],
     "cleanUrls": true
