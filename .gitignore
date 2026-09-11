@@ -1,4 +1,6 @@
 node_modules/
 .firebase/
 preview-*.png
+_mobile-test.html
+assets/raw/
 .DS_Store

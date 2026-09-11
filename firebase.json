@@ -5,7 +5,10 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**",
-      "preview-*.png"
+      "preview-*.png",
+      "_mobile-test.html",
+      "assets/raw/**",
+      "*.txt"
     ],
     "cleanUrls": true
   }
